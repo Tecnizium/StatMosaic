@@ -13,7 +13,7 @@ public class CosmosDbService : ICosmosDbService
     public CosmosDbService(ILogger<CosmosDbService> logger, IConfiguration config)
     {
         _logger = logger;
-        var client = new CosmosClient(config["CosmosDb:ConnectionString"], config["CosmosDb:PrimaryKey"]);
+        var client = new CosmosClient(Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? config["CosmosDb:ConnectionString"]!);
         var database = client.GetDatabase(config["CosmosDb:DatabaseName"]);
         _polls = database.GetContainer(config["CosmosDb:PollsContainerName"]);
         _answers = database.GetContainer(config["CosmosDb:AnswersContainerName"]);
